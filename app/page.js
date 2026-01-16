@@ -825,7 +825,7 @@ export default function Page() {
               </StepContent>
               <CodeSnippet
                 id="install-package"
-                code={`npm install styled-pasya`}
+                code={`npm install tp-13-desain-system`}
               />
             </StepCard>
 
@@ -884,7 +884,7 @@ export default function Page() {
                 id="header-modern"
                 code={`"use client";
 
-import { HeaderVariant } from "styled-pasya";
+import { HeaderVariant } from "tp-13-desain-system";
 
 export default function Page() {
   const headerData = {
@@ -905,7 +905,7 @@ export default function Page() {
                 id="header-minimal"
                 code={`"use client";
 
-import { HeaderVariant } from "styled-pasya";
+import { HeaderVariant } from "tp-13-desain-system";
 
 export default function Page() {
   const headerData = {
@@ -929,7 +929,7 @@ export default function Page() {
                 id="header-glass"
                 code={`"use client";
 
-import { HeaderVariant } from "styled-pasya";
+import { HeaderVariant } from "tp-13-desain-system";
 
 export default function Page() {
   const headerData = {
@@ -969,7 +969,7 @@ export default function Page() {
                   id="card-elevated"
                   code={`"use client";
 
-import { CardVariant } from "styled-pasya";
+import { CardVariant } from "tp-13-desain-system";
 
 export default function Page() {
   const cardData = {
@@ -998,7 +998,7 @@ export default function Page() {
                   id="card-bordered"
                   code={`"use client";
 
-import { CardVariant } from "styled-pasya";
+import { CardVariant } from "tp-13-desain-system";
 
 export default function Page() {
   const cardData = {
@@ -1027,7 +1027,7 @@ export default function Page() {
                   id="card-gradient"
                   code={`"use client";
 
-import { CardVariant } from "styled-pasya";
+import { CardVariant } from "tp-13-desain-system";
 
 export default function Page() {
   const cardData = {
@@ -1066,7 +1066,7 @@ export default function Page() {
                 code={`"use client";
 
 import { useState } from "react";
-import { ButtonVariant } from "styled-pasya";
+import { ButtonVariant } from "tp-13-desain-system";
 import { FaSpinner, FaCheck, FaArrowRight } from "react-icons/fa";
 
 export default function Page() {
@@ -1124,7 +1124,7 @@ export default function Page() {
                 code={`"use client";
 
 import { useState } from "react";
-import { ButtonVariant } from "styled-pasya";
+import { ButtonVariant } from "tp-13-desain-system";
 import { FaHeart, FaCheck } from "react-icons/fa";
 
 export default function Page() {
@@ -1154,7 +1154,7 @@ export default function Page() {
                 code={`"use client";
 
 import { useEffect, useState } from "react";
-import { ButtonVariant } from "styled-pasya";
+import { ButtonVariant } from "tp-13-desain-system";
 import { FaDownload, FaSpinner, FaCheck } from "react-icons/fa";
 
 export default function Page() {
@@ -1231,7 +1231,7 @@ export default function Page() {
                 id="footer-stacked"
                 code={`"use client";
 
-import { FooterVariant } from "styled-pasya";
+import { FooterVariant } from "tp-13-desain-system";
 
 export default function Page() {
   const footerData = {
@@ -1263,7 +1263,7 @@ export default function Page() {
                 id="footer-columns"
                 code={`"use client";
 
-import { FooterVariant } from "styled-pasya";
+import { FooterVariant } from "tp-13-desain-system";
 
 export default function Page() {
   const footerData = {
@@ -1297,7 +1297,7 @@ export default function Page() {
                 id="footer-centered"
                 code={`"use client";
 
-import { FooterVariant } from "styled-pasya";
+import { FooterVariant } from "tp-13-desain-system";
 
 export default function Page() {
   const footerData = {
@@ -1337,7 +1337,7 @@ export default function Page() {
                   code={`"use client";
 
 import { useState } from "react";
-import { SidebarVariant } from "styled-pasya";
+import { SidebarVariant } from "tp-13-desain-system";
 
 export default function Page() {
   const [active, setActive] = useState("header");
@@ -1365,7 +1365,7 @@ export default function Page() {
                   code={`"use client";
 
 import { useState } from "react";
-import { SidebarVariant } from "styled-pasya";
+import { SidebarVariant } from "tp-13-desain-system";
 
 export default function Page() {
   const [active, setActive] = useState("header");
@@ -1393,7 +1393,7 @@ export default function Page() {
                   code={`"use client";
 
 import { useState } from "react";
-import { SidebarVariant } from "styled-pasya";
+import { SidebarVariant } from "tp-13-desain-system";
 
 export default function Page() {
   const [active, setActive] = useState("header");
