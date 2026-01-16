@@ -1,7 +1,11 @@
 import "./globals.css"
 
 export const metadata = {
-  title: "Styled-Pasya UI",
+  title: "TP-13 Desain System",
+  description: "Design System untuk komponen UI florist - Header, Card, Button, Footer, Sidebar",
+  icons: {
+    icon: "/icon.jpg",
+  },
 }
 
 export default function RootLayout({ children }) {
