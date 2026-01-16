@@ -886,6 +886,10 @@ export default function Page() {
 
 import { HeaderVariant } from "tp-13-desain-system";
 
+// Header Modern sudah memiliki fitur dinamis built-in:
+// - Notification badge dengan counter (klik untuk reset)
+// - Cart icon dengan badge counter (klik untuk tambah)
+
 export default function Page() {
   const headerData = {
     logo: "FloristHub",
@@ -906,6 +910,10 @@ export default function Page() {
                 code={`"use client";
 
 import { HeaderVariant } from "tp-13-desain-system";
+
+// Header Minimal sudah memiliki fitur dinamis built-in:
+// - Tombol dengan success state saat diklik
+// - Animasi hover dan shadow effects
 
 export default function Page() {
   const headerData = {
@@ -931,6 +939,11 @@ export default function Page() {
 
 import { HeaderVariant } from "tp-13-desain-system";
 
+// Header Glassmorphism sudah memiliki fitur dinamis built-in:
+// - Search dengan focus animation (input melebar)
+// - Autocomplete suggestions saat mengetik
+// - Tombol clear untuk reset pencarian
+
 export default function Page() {
   const headerData = {
     logo: "✦ Bloom Florist",
@@ -939,13 +952,7 @@ export default function Page() {
   };
 
   return (
-    <div
-      style={{
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        padding: "2rem",
-        borderRadius: "12px",
-      }}
-    >
+    <div style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", padding: "2rem", borderRadius: "12px" }}>
       <HeaderVariant variant="glassmorphism" data={headerData} />
     </div>
   );
@@ -971,21 +978,21 @@ export default function Page() {
 
 import { CardVariant } from "tp-13-desain-system";
 
+// Card Elevated sudah memiliki fitur dinamis built-in:
+// - Quantity counter (+/-) untuk mengatur jumlah
+// - Tombol "Tambah Keranjang" dengan animasi success
+
 export default function Page() {
   const cardData = {
     title: "Buket Mawar Premium",
-    description: "Rangkaian mawar segar pilihan dengan sentuhan elegan untuk momen spesial Anda",
+    description: "Rangkaian mawar segar pilihan dengan sentuhan elegan",
     image: "https://i.pinimg.com/736x/40/7c/65/407c650b7f61174045378cd5beeb6f13.jpg",
     price: "Rp 400.000",
     rating: "4.9",
     badge: "BESTSELLER",
   };
 
-  return (
-    <div style={{ padding: 24 }}>
-      <CardVariant variant="elevated" data={cardData} />
-    </div>
-  );
+  return <CardVariant variant="elevated" data={cardData} />;
 }
 `}
                 />
@@ -1000,21 +1007,20 @@ export default function Page() {
 
 import { CardVariant } from "tp-13-desain-system";
 
+// Card Bordered sudah memiliki fitur dinamis built-in:
+// - Tombol "Pesan Sekarang" dengan loading state
+// - Animasi success setelah proses selesai
+
 export default function Page() {
   const cardData = {
     title: "Rangkaian Lily Putih",
-    description:
-      "Lily putih yang anggun dan harum, sempurna untuk ucapan simpati atau perayaan suci.",
+    description: "Lily putih yang anggun dan harum, sempurna untuk ucapan.",
     image: "https://i.pinimg.com/736x/2f/5c/62/2f5c62895a5772e080bfb0500526c81b.jpg",
     price: "Rp 380.000",
     location: "Surabaya, Indonesia",
   };
 
-  return (
-    <div style={{ padding: 24 }}>
-      <CardVariant variant="bordered" data={cardData} />
-    </div>
-  );
+  return <CardVariant variant="bordered" data={cardData} />;
 }
 `}
                 />
@@ -1029,21 +1035,20 @@ export default function Page() {
 
 import { CardVariant } from "tp-13-desain-system";
 
+// Card Gradient sudah memiliki fitur dinamis built-in:
+// - Tombol heart/like untuk toggle favorite
+// - Animasi hover dan scale effect
+
 export default function Page() {
   const cardData = {
     title: "Buket Tulip Warna-Warni",
-    description:
-      "Koleksi tulip segar dengan warna cerah yang membawa kebahagiaan ke rumah Anda",
+    description: "Koleksi tulip segar dengan warna cerah yang membawa kebahagiaan",
     image: "https://i.pinimg.com/736x/57/91/7a/57917af89007248051bb954f2f7c82d5.jpg",
     price: "Rp 350.000",
     rating: "4.9",
   };
 
-  return (
-    <div style={{ padding: 24 }}>
-      <CardVariant variant="gradient" data={cardData} />
-    </div>
-  );
+  return <CardVariant variant="gradient" data={cardData} />;
 }
 `}
                 />
@@ -1265,27 +1270,26 @@ export default function Page() {
 
 import { FooterVariant } from "tp-13-desain-system";
 
+// Footer Columns sudah memiliki fitur dinamis built-in:
+// - Newsletter subscription form dengan email input
+// - Loading state saat submit dan success message
+// - Validasi email otomatis
+
 export default function Page() {
   const footerData = {
     aboutTitle: "Tentang Florist",
-    aboutDesc:
-      "Toko bunga premium yang menghadirkan rangkaian bunga segar berkualitas tinggi untuk berbagai momen spesial Anda.",
+    aboutDesc: "Toko bunga premium untuk berbagai momen spesial Anda.",
     phone: "+62 (21) 555-1234",
     email: "hello@bloomflorist.com",
     address: "Jl. Bunga Mawar No. 88, Jakarta",
     columns: [
-      { title: "Produk", links: ["Buket Bunga", "Tanaman Hias", "Vas & Pot", "Hampers", "Dekorasi"] },
-      { title: "Kebijakan", links: ["Kebijakan Pengiriman", "Pengembalian", "Privasi", "Syarat & Ketentuan", "Peta Situs"] },
-      { title: "Newsletter", desc: "Dapatkan info promo dan tips merawat bunga terbaru" },
+      { title: "Produk", links: ["Buket Bunga", "Tanaman Hias", "Hampers"] },
+      { title: "Kebijakan", links: ["Pengiriman", "Pengembalian", "Privasi"] },
+      { title: "Newsletter", desc: "Dapatkan info promo terbaru" },
     ],
   };
 
-  return (
-    <div style={{ minHeight: "100vh" }}>
-      <div style={{ padding: 24 }}>Konten…</div>
-      <FooterVariant variant="columns" data={footerData} />
-    </div>
-  );
+  return <FooterVariant variant="columns" data={footerData} />;
 }
 `}
               />
