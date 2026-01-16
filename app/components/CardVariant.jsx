@@ -1,7 +1,13 @@
 "use client";
 
-import styled from "styled-components";
-import { FaStar, FaMapMarkerAlt, FaLeaf, FaTruck } from "react-icons/fa";
+import { useState } from "react";
+import styled, { keyframes } from "styled-components";
+import { FaStar, FaMapMarkerAlt, FaLeaf, FaTruck, FaHeart, FaMinus, FaPlus, FaSpinner, FaCheck, FaShoppingCart } from "react-icons/fa";
+
+const spin = keyframes`
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+`;
 
 const variantStyles = {
   elevated: {
@@ -130,6 +136,77 @@ const Rating = styled.div`
   font-weight: 600;
 `;
 
+// Dynamic Counter Styles for Elevated Card
+const QuantitySection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ecf0f1;
+`;
+
+const QuantityControl = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 25px;
+  padding: 0.3rem;
+`;
+
+const QuantityButton = styled.button`
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: ${({ disabled }) => disabled ? '#ddd' : '#e91e63'};
+  color: white;
+  cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer'};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  
+  &:hover:not(:disabled) {
+    background: #c2185b;
+    transform: scale(1.1);
+  }
+`;
+
+const QuantityDisplay = styled.span`
+  font-size: 1.1rem;
+  font-weight: 700;
+  min-width: 30px;
+  text-align: center;
+  color: #333;
+`;
+
+const AddToCartButton = styled.button`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: ${({ $added }) => $added ? '#4caf50' : '#e91e63'};
+  color: white;
+  border: none;
+  padding: 0.8rem 1rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  
+  &:hover {
+    background: ${({ $added }) => $added ? '#388e3c' : '#c2185b'};
+    transform: scale(1.02);
+  }
+  
+  svg {
+    font-size: 1rem;
+  }
+`;
+
 /* ====== VARIANT BORDERED: Card dengan outline dan ikon ====== */
 const BorderedCard = styled.div`
   width: 100%;
@@ -221,18 +298,27 @@ const BorderedPrice = styled.div`
 `;
 
 const BookButton = styled.button`
-  background: #e91e63;
+  background: ${({ $loading, $success }) => $success ? '#4caf50' : '#e91e63'};
   color: white;
   border: none;
   padding: 0.7rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
-  cursor: pointer;
+  cursor: ${({ $loading }) => $loading ? 'wait' : 'pointer'};
   transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 160px;
+  justify-content: center;
   
-  &:hover {
-    background: #c2185b;
+  &:hover:not(:disabled) {
+    background: ${({ $success }) => $success ? '#388e3c' : '#c2185b'};
     transform: scale(1.05);
+  }
+  
+  svg.spin {
+    animation: ${spin} 1s linear infinite;
   }
 `;
 
@@ -319,68 +405,165 @@ const GradientRating = styled.div`
   gap: 0.3rem;
 `;
 
+const HeartButton = styled.button`
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: ${({ $liked }) => $liked ? '#e91e63' : '#95a5a6'};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  
+  &:hover {
+    transform: scale(1.15);
+    color: #e91e63;
+  }
+  
+  svg {
+    font-size: 1.3rem;
+    transition: transform 0.2s;
+  }
+  
+  &:active svg {
+    transform: scale(1.3);
+  }
+`;
+
+// Individual card components with internal state
+function ElevatedCardComponent({ data }) {
+  const [quantity, setQuantity] = useState(1);
+  const [isAdded, setIsAdded] = useState(false);
+
+  const handleAddToCart = () => {
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
+  };
+
+  return (
+    <ElevatedCard>
+      <ElevatedImageWrapper>
+        <ElevatedImage src={data.image} alt={data.title} />
+        <Badge>{data.badge}</Badge>
+      </ElevatedImageWrapper>
+      <ElevatedContent>
+        <ElevatedTitle>{data.title}</ElevatedTitle>
+        <ElevatedFeatures>
+          <Feature><FaLeaf /> Segar 100%</Feature>
+          <Feature><FaTruck /> Free Ongkir</Feature>
+        </ElevatedFeatures>
+        <ElevatedFooter>
+          <Price>{data.price}<span>/buket</span></Price>
+          <Rating><FaStar /> {data.rating}</Rating>
+        </ElevatedFooter>
+        <QuantitySection>
+          <QuantityControl>
+            <QuantityButton
+              onClick={() => setQuantity(q => Math.max(1, q - 1))}
+              disabled={quantity <= 1}
+            >
+              <FaMinus size={12} />
+            </QuantityButton>
+            <QuantityDisplay>{quantity}</QuantityDisplay>
+            <QuantityButton onClick={() => setQuantity(q => q + 1)}>
+              <FaPlus size={12} />
+            </QuantityButton>
+          </QuantityControl>
+          <AddToCartButton $added={isAdded} onClick={handleAddToCart}>
+            {isAdded ? <><FaCheck /> Ditambahkan!</> : <><FaShoppingCart /> Keranjang</>}
+          </AddToCartButton>
+        </QuantitySection>
+      </ElevatedContent>
+    </ElevatedCard>
+  );
+}
+
+function BorderedCardComponent({ data }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleOrder = () => {
+    if (isLoading || isSuccess) return;
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setIsSuccess(true);
+      setTimeout(() => setIsSuccess(false), 2000);
+    }, 1500);
+  };
+
+  return (
+    <BorderedCard>
+      <BorderedContent>
+        <BorderedHeader>
+          <div>
+            <BorderedTitle>{data.title}</BorderedTitle>
+            <BorderedLocation>
+              <FaMapMarkerAlt /> {data.location}
+            </BorderedLocation>
+          </div>
+        </BorderedHeader>
+        <BorderedImage src={data.image} alt={data.title} />
+        <BorderedDescription>{data.description}</BorderedDescription>
+        <BorderedFooter>
+          <BorderedPrice>{data.price}</BorderedPrice>
+          <BookButton
+            onClick={handleOrder}
+            $loading={isLoading}
+            $success={isSuccess}
+          >
+            {isLoading ? (
+              <><FaSpinner className="spin" /> Memproses...</>
+            ) : isSuccess ? (
+              <><FaCheck /> Berhasil!</>
+            ) : (
+              'Pesan Sekarang'
+            )}
+          </BookButton>
+        </BorderedFooter>
+      </BorderedContent>
+    </BorderedCard>
+  );
+}
+
+function GradientCardComponent({ data }) {
+  const [isLiked, setIsLiked] = useState(false);
+
+  return (
+    <GradientCard>
+      <HeartButton $liked={isLiked} onClick={() => setIsLiked(!isLiked)}>
+        <FaHeart />
+      </HeartButton>
+      <GradientImageWrapper>
+        <GradientImage src={data.image} alt={data.title} />
+      </GradientImageWrapper>
+      <GradientContent>
+        <GradientTitle>{data.title}</GradientTitle>
+        <GradientDescription>{data.description}</GradientDescription>
+        <GradientFooter>
+          <GradientPrice>{data.price}</GradientPrice>
+          <GradientRating>★ {data.rating}</GradientRating>
+        </GradientFooter>
+      </GradientContent>
+    </GradientCard>
+  );
+}
+
 export default function CardVariant({ variant = "elevated", data }) {
   switch (variant) {
     case "elevated":
-      return (
-        <ElevatedCard>
-          <ElevatedImageWrapper>
-            <ElevatedImage src={data.image} alt={data.title} />
-            <Badge>{data.badge}</Badge>
-          </ElevatedImageWrapper>
-          <ElevatedContent>
-            <ElevatedTitle>{data.title}</ElevatedTitle>
-            <ElevatedFeatures>
-              <Feature><FaLeaf /> Segar 100%</Feature>
-              <Feature><FaTruck /> Free Ongkir</Feature>
-            </ElevatedFeatures>
-            <ElevatedFooter>
-              <Price>{data.price}<span>/buket</span></Price>
-              <Rating><FaStar /> {data.rating}</Rating>
-            </ElevatedFooter>
-          </ElevatedContent>
-        </ElevatedCard>
-      );
-
+      return <ElevatedCardComponent data={data} />;
     case "bordered":
-      return (
-        <BorderedCard>
-          <BorderedContent>
-            <BorderedHeader>
-              <div>
-                <BorderedTitle>{data.title}</BorderedTitle>
-                <BorderedLocation>
-                  <FaMapMarkerAlt /> {data.location}
-                </BorderedLocation>
-              </div>
-            </BorderedHeader>
-            <BorderedImage src={data.image} alt={data.title} />
-            <BorderedDescription>{data.description}</BorderedDescription>
-            <BorderedFooter>
-              <BorderedPrice>{data.price}</BorderedPrice>
-              <BookButton>Pesan Sekarang</BookButton>
-            </BorderedFooter>
-          </BorderedContent>
-        </BorderedCard>
-      );
-
+      return <BorderedCardComponent data={data} />;
     case "gradient":
-      return (
-        <GradientCard>
-          <GradientImageWrapper>
-            <GradientImage src={data.image} alt={data.title} />
-          </GradientImageWrapper>
-          <GradientContent>
-            <GradientTitle>{data.title}</GradientTitle>
-            <GradientDescription>{data.description}</GradientDescription>
-            <GradientFooter>
-              <GradientPrice>{data.price}</GradientPrice>
-              <GradientRating>★ {data.rating}</GradientRating>
-            </GradientFooter>
-          </GradientContent>
-        </GradientCard>
-      );
-
+      return <GradientCardComponent data={data} />;
     default:
       return null;
   }

@@ -1,6 +1,7 @@
 "use client";
 
-import styled from "styled-components";
+import { useState } from "react";
+import styled, { keyframes } from "styled-components";
 import {
   FaFacebookF,
   FaInstagram,
@@ -8,8 +9,15 @@ import {
   FaLinkedin,
   FaPhone,
   FaEnvelope,
-  FaMapMarkerAlt
+  FaMapMarkerAlt,
+  FaCheck,
+  FaPaperPlane
 } from "react-icons/fa";
+
+const spin = keyframes`
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+`;
 
 const variantStyles = {
   stacked: { background: "#3d0a1f", color: "#ecf0f1" },
@@ -314,6 +322,92 @@ const ColumnsDivider = styled.div`
   }
 `;
 
+// Dynamic Newsletter Form
+const NewsletterForm = styled.form`
+  margin-top: 1rem;
+`;
+
+const NewsletterInputWrapper = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  
+  @media (max-width: 576px) {
+    flex-direction: column;
+  }
+`;
+
+const NewsletterInput = styled.input`
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s;
+  
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  &:focus {
+    border-color: white;
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  @media (max-width: 576px) {
+    padding: 0.6rem 0.8rem;
+    font-size: 12px;
+  }
+`;
+
+const NewsletterButton = styled.button`
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  background: ${({ $success }) => $success ? '#4caf50' : 'white'};
+  color: ${({ $success }) => $success ? 'white' : '#e91e63'};
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s;
+  
+  &:hover:not(:disabled) {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  @media (max-width: 576px) {
+    padding: 0.6rem 1rem;
+    font-size: 12px;
+    width: 100%;
+    justify-content: center;
+  }
+`;
+
+const SuccessMessage = styled.div`
+  color: #a5d6a7;
+  font-size: 13px;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  @media (max-width: 576px) {
+    font-size: 11px;
+  }
+`;
+
 /* ====== VARIANT CENTERED: Center-aligned footer ====== */
 const CenteredFooter = styled.footer`
   background: ${variantStyles.centered.background};
@@ -405,6 +499,61 @@ const CenteredCopyright = styled.div`
   font-size: 13px;
   opacity: 0.6;
 `;
+
+// Newsletter Component with internal state
+function NewsletterSection({ desc }) {
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!email || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSuccess(true);
+      setEmail('');
+      setTimeout(() => setIsSuccess(false), 3000);
+    }, 1500);
+  };
+
+  return (
+    <>
+      <p>{desc}</p>
+      <NewsletterForm onSubmit={handleSubmit}>
+        <NewsletterInputWrapper>
+          <NewsletterInput
+            type="email"
+            placeholder="Masukkan email Anda"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isSubmitting || isSuccess}
+          />
+          <NewsletterButton
+            type="submit"
+            disabled={isSubmitting || isSuccess || !email}
+            $success={isSuccess}
+          >
+            {isSubmitting ? (
+              'Mengirim...'
+            ) : isSuccess ? (
+              <><FaCheck /> Berhasil!</>
+            ) : (
+              <><FaPaperPlane /> Subscribe</>
+            )}
+          </NewsletterButton>
+        </NewsletterInputWrapper>
+        {isSuccess && (
+          <SuccessMessage>
+            <FaCheck /> Terima kasih! Email Anda sudah terdaftar.
+          </SuccessMessage>
+        )}
+      </NewsletterForm>
+    </>
+  );
+}
 
 export default function FooterVariant({ variant = "stacked", data }) {
   const defaultData = {
@@ -507,7 +656,11 @@ export default function FooterVariant({ variant = "stacked", data }) {
                 {col.links && col.links.map((link, linkIdx) => (
                   <a key={linkIdx} href="#">{link}</a>
                 ))}
-                {col.desc && <p>{col.desc}</p>}
+                {col.desc && col.title === "Newsletter" ? (
+                  <NewsletterSection desc={col.desc} />
+                ) : col.desc && (
+                  <p>{col.desc}</p>
+                )}
                 {idx === footerData.columns.length - 1 && (
                   <SocialIcons style={{ justifyContent: 'flex-start', marginTop: '1.5rem' }}>
                     <a href="#"><FaFacebookF /></a>

@@ -1,7 +1,14 @@
 "use client";
 
-import styled from "styled-components";
-import { FaBars, FaSearch, FaBell } from "react-icons/fa";
+import { useState } from "react";
+import styled, { keyframes } from "styled-components";
+import { FaBars, FaSearch, FaBell, FaTimes, FaShoppingCart, FaCheck } from "react-icons/fa";
+
+const pulse = keyframes`
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+`;
 
 const variantStyles = {
   modern: {
@@ -101,7 +108,7 @@ const ModernLink = styled.a`
 `;
 
 const IconButton = styled.button`
-  background: rgba(255, 255, 255, 0.2);
+  background: ${({ $active }) => $active ? 'rgba(255, 255, 255, 0.4)' : 'rgba(255, 255, 255, 0.2)'};
   border: none;
   color: white;
   width: 40px;
@@ -112,6 +119,7 @@ const IconButton = styled.button`
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s;
+  position: relative;
   
   &:hover {
     background: rgba(255, 255, 255, 0.3);
@@ -125,6 +133,55 @@ const IconButton = styled.button`
     svg {
       font-size: 11px;
     }
+  }
+`;
+
+const NotificationBadge = styled.span`
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ffc107;
+  color: #333;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ${pulse} 2s infinite;
+  
+  @media (max-width: 768px) {
+    top: -3px;
+    right: -3px;
+    min-width: 14px;
+    height: 14px;
+    font-size: 8px;
+  }
+`;
+
+const CartBadge = styled.span`
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #4caf50;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  @media (max-width: 768px) {
+    top: -3px;
+    right: -3px;
+    min-width: 14px;
+    height: 14px;
+    font-size: 8px;
   }
 `;
 
@@ -201,7 +258,7 @@ const MinimalLink = styled.a`
 `;
 
 const MinimalButton = styled.button`
-  background: #e91e63;
+  background: ${({ $clicked }) => $clicked ? '#4caf50' : '#e91e63'};
   color: white;
   border: none;
   padding: 0.7rem 1.8rem;
@@ -210,11 +267,14 @@ const MinimalButton = styled.button`
   cursor: pointer;
   transition: all 0.3s;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   
   &:hover {
-    background: #c2185b;
+    background: ${({ $clicked }) => $clicked ? '#388e3c' : '#c2185b'};
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+    box-shadow: 0 4px 12px ${({ $clicked }) => $clicked ? 'rgba(76, 175, 80, 0.3)' : 'rgba(233, 30, 99, 0.3)'};
   }
   
   @media (max-width: 768px) {
@@ -314,11 +374,12 @@ const GlassLink = styled.a`
 const GlassSearch = styled.div`
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.1);
+  background: ${({ $focused }) => $focused ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.1)'};
   border-radius: 25px;
   padding: 0.5rem 1.2rem;
   gap: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid ${({ $focused }) => $focused ? 'rgba(255, 255, 255, 0.4)' : 'rgba(255, 255, 255, 0.2)'};
+  transition: all 0.3s;
   
   input {
     background: transparent;
@@ -326,6 +387,8 @@ const GlassSearch = styled.div`
     outline: none;
     color: white;
     font-size: 14px;
+    width: ${({ $focused }) => $focused ? '180px' : '120px'};
+    transition: width 0.3s;
     
     &::placeholder {
       color: rgba(255, 255, 255, 0.6);
@@ -334,6 +397,37 @@ const GlassSearch = styled.div`
   
   @media (max-width: 768px) {
     display: none;
+  }
+`;
+
+const SearchResults = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  margin-top: 0.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 100;
+`;
+
+const SearchResultItem = styled.div`
+  padding: 0.8rem 1rem;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  &:hover {
+    background: #f8bbd9;
+  }
+  
+  span {
+    font-size: 14px;
   }
 `;
 
@@ -362,6 +456,155 @@ const GlassMobileLink = styled.a`
   }
 `;
 
+const SearchWrapper = styled.div`
+  position: relative;
+`;
+
+// Individual header components with internal state
+function ModernHeaderComponent({ data }) {
+  const [notificationCount, setNotificationCount] = useState(3);
+  const [cartCount, setCartCount] = useState(2);
+
+  const handleNotificationClick = () => {
+    setNotificationCount(0);
+  };
+
+  const handleCartClick = () => {
+    setCartCount(prev => prev + 1);
+  };
+
+  return (
+    <ModernHeader>
+      <ModernLogo>{data.logo}</ModernLogo>
+      <ModernNav>
+        {data.links.map((link, idx) => (
+          <ModernLink key={idx} href="#">{link}</ModernLink>
+        ))}
+      </ModernNav>
+      <IconGroup>
+        <IconButton><FaSearch /></IconButton>
+        <IconButton onClick={handleNotificationClick} $active={notificationCount > 0}>
+          <FaBell />
+          {notificationCount > 0 && <NotificationBadge>{notificationCount}</NotificationBadge>}
+        </IconButton>
+        <IconButton onClick={handleCartClick}>
+          <FaShoppingCart />
+          {cartCount > 0 && <CartBadge>{cartCount}</CartBadge>}
+        </IconButton>
+      </IconGroup>
+    </ModernHeader>
+  );
+}
+
+function MinimalHeaderComponent({ data }) {
+  const [isClicked, setIsClicked] = useState(false);
+
+  const handleClick = () => {
+    setIsClicked(true);
+    setTimeout(() => setIsClicked(false), 2000);
+  };
+
+  return (
+    <MinimalHeader>
+      <MinimalContainer>
+        <MinimalLogo>{data.logo}</MinimalLogo>
+        <MinimalNav>
+          {data.links.map((link, idx) => (
+            <MinimalLink key={idx} href="#">{link}</MinimalLink>
+          ))}
+        </MinimalNav>
+        <MinimalActions>
+          <MinimalButton onClick={handleClick} $clicked={isClicked}>
+            {isClicked ? <><FaCheck /> Berhasil!</> : data.buttonText}
+          </MinimalButton>
+          <MinimalMobileMenu><FaBars /></MinimalMobileMenu>
+        </MinimalActions>
+      </MinimalContainer>
+    </MinimalHeader>
+  );
+}
+
+function GlassmorphismHeaderComponent({ data }) {
+  const [searchValue, setSearchValue] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+
+  const mockResults = [
+    '🌹 Mawar Merah Premium',
+    '🌷 Tulip Warna-Warni',
+    '🌸 Bunga Sakura',
+    '💐 Buket Ulang Tahun'
+  ].filter(item =>
+    searchValue && item.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      setIsFocused(false);
+      setShowResults(false);
+    }, 200);
+  };
+
+  const handleChange = (e) => {
+    setSearchValue(e.target.value);
+    setShowResults(e.target.value.length > 0);
+  };
+
+  const handleSelectResult = (result) => {
+    setSearchValue(result);
+    setShowResults(false);
+  };
+
+  return (
+    <GlassHeader>
+      <GlassLogo>{data.logo}</GlassLogo>
+      <GlassNav>
+        {data.links.map((link, idx) => (
+          <GlassLink key={idx} href="#">{link}</GlassLink>
+        ))}
+        <SearchWrapper>
+          <GlassSearch $focused={isFocused}>
+            <FaSearch size={14} />
+            <input
+              type="text"
+              placeholder={data.searchPlaceholder}
+              value={searchValue}
+              onChange={handleChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+            />
+            {searchValue && (
+              <FaTimes
+                size={12}
+                style={{ cursor: 'pointer', opacity: 0.6 }}
+                onClick={() => setSearchValue('')}
+              />
+            )}
+          </GlassSearch>
+          {showResults && mockResults.length > 0 && (
+            <SearchResults>
+              {mockResults.map((result, idx) => (
+                <SearchResultItem key={idx} onClick={() => handleSelectResult(result)}>
+                  <span>{result}</span>
+                </SearchResultItem>
+              ))}
+            </SearchResults>
+          )}
+        </SearchWrapper>
+      </GlassNav>
+      <GlassMobileNav>
+        {data.links.map((link, idx) => (
+          <GlassMobileLink key={idx} href="#">{link}</GlassMobileLink>
+        ))}
+      </GlassMobileNav>
+    </GlassHeader>
+  );
+}
+
 export default function HeaderVariant({ variant = "modern", data }) {
   const defaultData = {
     modern: {
@@ -384,61 +627,11 @@ export default function HeaderVariant({ variant = "modern", data }) {
 
   switch (variant) {
     case "modern":
-      return (
-        <ModernHeader>
-          <ModernLogo>{headerData.logo}</ModernLogo>
-          <ModernNav>
-            {headerData.links.map((link, idx) => (
-              <ModernLink key={idx} href="#">{link}</ModernLink>
-            ))}
-          </ModernNav>
-          <IconGroup>
-            <IconButton><FaSearch /></IconButton>
-            <IconButton><FaBell /></IconButton>
-            <IconButton><FaBars /></IconButton>
-          </IconGroup>
-        </ModernHeader>
-      );
-
+      return <ModernHeaderComponent data={headerData} />;
     case "minimal":
-      return (
-        <MinimalHeader>
-          <MinimalContainer>
-            <MinimalLogo>{headerData.logo}</MinimalLogo>
-            <MinimalNav>
-              {headerData.links.map((link, idx) => (
-                <MinimalLink key={idx} href="#">{link}</MinimalLink>
-              ))}
-            </MinimalNav>
-            <MinimalActions>
-              <MinimalButton>{headerData.buttonText}</MinimalButton>
-              <MinimalMobileMenu><FaBars /></MinimalMobileMenu>
-            </MinimalActions>
-          </MinimalContainer>
-        </MinimalHeader>
-      );
-
+      return <MinimalHeaderComponent data={headerData} />;
     case "glassmorphism":
-      return (
-        <GlassHeader>
-          <GlassLogo>{headerData.logo}</GlassLogo>
-          <GlassNav>
-            {headerData.links.map((link, idx) => (
-              <GlassLink key={idx} href="#">{link}</GlassLink>
-            ))}
-            <GlassSearch>
-              <FaSearch size={14} />
-              <input type="text" placeholder={headerData.searchPlaceholder} />
-            </GlassSearch>
-          </GlassNav>
-          <GlassMobileNav>
-            {headerData.links.map((link, idx) => (
-              <GlassMobileLink key={idx} href="#">{link}</GlassMobileLink>
-            ))}
-          </GlassMobileNav>
-        </GlassHeader>
-      );
-
+      return <GlassmorphismHeaderComponent data={headerData} />;
     default:
       return null;
   }
