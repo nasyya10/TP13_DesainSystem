@@ -888,8 +888,8 @@ import { HeaderVariant } from "styled-pasya";
 
 export default function Page() {
   const headerData = {
-    logo: "ResortHub",
-    links: ["Home", "Rooms", "Facilities", "Contact"],
+    logo: "FloristHub",
+    links: ["Beranda", "Produk", "Layanan", "Kontak"],
   };
 
   return <HeaderVariant variant="modern" data={headerData} />;
@@ -909,9 +909,9 @@ import { HeaderVariant } from "styled-pasya";
 
 export default function Page() {
   const headerData = {
-    logo: "RESORT",
-    links: ["Home", "Rooms", "About", "Contact"],
-    buttonText: "Book Now",
+    logo: "FLORIST",
+    links: ["Beranda", "Buket", "Tentang", "Kontak"],
+    buttonText: "Pesan Sekarang",
   };
 
   return <HeaderVariant variant="minimal" data={headerData} />;
@@ -933,9 +933,9 @@ import { HeaderVariant } from "styled-pasya";
 
 export default function Page() {
   const headerData = {
-    logo: "✦ Paradise Resort",
-    links: ["Home", "Explore", "Services"],
-    searchPlaceholder: "Search...",
+    logo: "✦ Bloom Florist",
+    links: ["Beranda", "Katalog", "Layanan"],
+    searchPlaceholder: "Cari bunga...",
   };
 
   return (
@@ -1267,16 +1267,16 @@ import { FooterVariant } from "styled-pasya";
 
 export default function Page() {
   const footerData = {
-    aboutTitle: "Tentang Resort",
+    aboutTitle: "Tentang Florist",
     aboutDesc:
-      "Resort tepi pantai premium yang menawarkan fasilitas kelas dunia, layanan luar biasa, dan pengalaman tak terlupakan untuk semua tamu.",
-    phone: "+62 (555) 123-4567",
-    email: "info@paradiseresort.com",
-    address: "Jl. Pantai No. 123, Pulau Tropis",
+      "Toko bunga premium yang menghadirkan rangkaian bunga segar berkualitas tinggi untuk berbagai momen spesial Anda.",
+    phone: "+62 (21) 555-1234",
+    email: "hello@bloomflorist.com",
+    address: "Jl. Bunga Mawar No. 88, Jakarta",
     columns: [
-      { title: "Jelajahi", links: ["Akomodasi", "Kuliner", "Acara", "Pernikahan", "Penawaran"] },
-      { title: "Kebijakan", links: ["Kebijakan Pemesanan", "Pembatalan", "Privasi", "Syarat & Ketentuan", "Peta Situs"] },
-      { title: "Newsletter", desc: "Berlangganan untuk penawaran eksklusif dan info terbaru" },
+      { title: "Produk", links: ["Buket Bunga", "Tanaman Hias", "Vas & Pot", "Hampers", "Dekorasi"] },
+      { title: "Kebijakan", links: ["Kebijakan Pengiriman", "Pengembalian", "Privasi", "Syarat & Ketentuan", "Peta Situs"] },
+      { title: "Newsletter", desc: "Dapatkan info promo dan tips merawat bunga terbaru" },
     ],
   };
 
@@ -1301,12 +1301,12 @@ import { FooterVariant } from "styled-pasya";
 
 export default function Page() {
   const footerData = {
-    logo: "✦ PARADISE ✦",
+    logo: "✦ BLOOM ✦",
     tagline:
-      "Tempat kemewahan bertemu ketenangan. Temukan pelarian sempurna Anda di destinasi resort kelas dunia kami.",
-    links: ["Beranda", "Kamar", "Kuliner", "Spa", "Acara", "Kontak"],
+      "Tempat keindahan bunga bertemu dengan ketulusan hati. Temukan rangkaian sempurna untuk orang tersayang.",
+    links: ["Beranda", "Katalog", "Layanan", "Workshop", "Event", "Kontak"],
     copyright:
-      "© 2025 Paradise Resort. Hak cipta dilindungi. | Kebijakan Privasi | Syarat Penggunaan",
+      "© 2025 Bloom Florist. Hak cipta dilindungi. | Kebijakan Privasi | Syarat Penggunaan",
   };
 
   return (
@@ -1465,6 +1465,3 @@ export default function Page() {
     </>
   );
 }
-
-
-
