@@ -973,12 +973,12 @@ import { CardVariant } from "styled-pasya";
 
 export default function Page() {
   const cardData = {
-    title: "Pemandangan Tanaman Hijau",
-    description: "Panorama Tanaman Hijau yang menakjubkan dengan fasilitas mewah",
-    image: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80",
-    price: "Rp 5.250.000",
+    title: "Buket Mawar Premium",
+    description: "Rangkaian mawar segar pilihan dengan sentuhan elegan untuk momen spesial Anda",
+    image: "https://i.pinimg.com/736x/40/7c/65/407c650b7f61174045378cd5beeb6f13.jpg",
+    price: "Rp 400.000",
     rating: "4.9",
-    badge: "PREMIUM",
+    badge: "BESTSELLER",
   };
 
   return (
@@ -1002,12 +1002,12 @@ import { CardVariant } from "styled-pasya";
 
 export default function Page() {
   const cardData = {
-    title: "Villa Taman",
+    title: "Rangkaian Lily Putih",
     description:
-      "Villa yang tenang dikelilingi taman tropis dengan teras pribadi dan akses kolam renang.",
-    image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80",
-    price: "Rp 6.300.000",
-    location: "Bali, Indonesia",
+      "Lily putih yang anggun dan harum, sempurna untuk ucapan simpati atau perayaan suci.",
+    image: "https://i.pinimg.com/736x/2f/5c/62/2f5c62895a5772e080bfb0500526c81b.jpg",
+    price: "Rp 380.000",
+    location: "Surabaya, Indonesia",
   };
 
   return (
@@ -1031,12 +1031,12 @@ import { CardVariant } from "styled-pasya";
 
 export default function Page() {
   const cardData = {
-    title: "Surga Senja",
+    title: "Buket Tulip Warna-Warni",
     description:
-      "Saksikan pemandangan matahari terbenam yang memukau dari balkon pribadi Anda",
-    image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80",
-    price: "Rp 4.200.000",
-    rating: "4.8",
+      "Koleksi tulip segar dengan warna cerah yang membawa kebahagiaan ke rumah Anda",
+    image: "https://i.pinimg.com/736x/57/91/7a/57917af89007248051bb954f2f7c82d5.jpg",
+    price: "Rp 350.000",
+    rating: "4.9",
   };
 
   return (
@@ -1235,15 +1235,15 @@ import { FooterVariant } from "styled-pasya";
 
 export default function Page() {
   const footerData = {
-    brandName: "Paradise Resort",
+    brandName: "Bloom Florist",
     brandDesc:
-      "Rasakan kemewahan dan kenyamanan di jantung surga. Liburan impian Anda menanti.",
+      "Hadirkan keindahan bunga segar untuk setiap momen spesial dalam hidup Anda.",
     linkGroups: [
-      { title: "Tautan Cepat", links: ["Beranda", "Kamar", "Fasilitas", "Galeri"] },
-      { title: "Layanan", links: ["Spa & Wellness", "Restoran", "Bar Kolam", "Aktivitas"] },
+      { title: "Tautan Cepat", links: ["Beranda", "Katalog", "Promo", "Galeri"] },
+      { title: "Layanan", links: ["Buket Custom", "Dekorasi Event", "Langganan Mingguan", "Workshop"] },
       { title: "Bantuan", links: ["Hubungi Kami", "FAQ", "Kebijakan Privasi", "Syarat & Ketentuan"] },
     ],
-    copyright: "© 2025 Paradise Resort. Hak cipta dilindungi.",
+    copyright: "© 2025 Bloom Florist. Hak cipta dilindungi.",
   };
 
   return (
